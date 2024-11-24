@@ -5,32 +5,52 @@
 
 int main() {
     char str[100];
-    int count_a = 0, count_b = 0, valid = 1;
+    int count_a, count_b, is_valid;
+    int choice;
 
-    printf("Enter a string: ");
-    scanf("%s", str);
+    printf("Language L = {a^n b^m | n >= 4, m <= 3}\n");
 
-    int len = strlen(str);
-    int i;
+    do {
+        printf("\nEnter a string to check: ");
+        scanf("%s", str);
 
-    // Iterate through the string
-    for (i = 0; i < len; i++) {
-        if (str[i] == 'a') {
-            count_a++; // Count 'a's
-        } else if (str[i] == 'b') {
-            count_b++; // Count 'b's
-        } else {
-            valid = 0; // Invalid character found
-            break;
+        // Initialize counters
+        count_a = 0;
+        count_b = 0;
+        is_valid = 1;
+
+        // Traverse the string using a for loop
+        int len = strlen(str);
+        int i;
+        for (i = 0; i < len; i++) {
+            if (str[i] == 'a') {
+                if (count_b > 0) {
+                    is_valid = 0; // Found 'a' after 'b'
+                    break;
+                }
+                count_a++;
+            } else if (str[i] == 'b') {
+                count_b++;
+            } else {
+                is_valid = 0; // Invalid character
+                break;
+            }
         }
-    }
 
-    // Check the conditions of the language
-    if (valid && count_a >= 4 && count_b <= 3) {
-        printf("The string %s belongs to the language L.\n",str);
-    } else {
-        printf("The string %s does not belong to the language L.\n",str);
-    }
+        // Validate counts
+        if (is_valid && count_a >= 4 && count_b <= 3) {
+            printf("The string belongs to the language L.\n");
+        } else {
+            printf("The string does not belong to the language L.\n");
+        }
 
+        // Ask the user if they want to check another string
+        printf("\nDo you want to check another string? (1 for Yes, 0 for No): ");
+        scanf("%d", &choice);
+
+    } while (choice != 0);
+
+    printf("Program exited.\n");
     return 0;
 }
+
